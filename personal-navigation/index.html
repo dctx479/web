@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人导航 - 智能网站导航中心</title>
+    <meta name="description" content="功能丰富的个人导航页面，支持深色模式、访问统计、快捷工具等">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 顶部工具栏 -->
+    <header class="header">
+        <div class="container">
+            <div class="header-left">
+                <h1 class="logo">
+                    <i class="fa fa-compass"></i>
+                    个人导航
+                </h1>
+            </div>
+            <div class="header-right">
+                <div class="weather-time-group">
+                    <div class="weather-widget" id="weatherWidget">
+                        <i class="fa fa-sun-o"></i>
+                        <span id="weatherInfo">北京 22°C</span>
+                        <button class="weather-settings-btn" id="weatherSettingsBtn" title="设置城市">
+                            <i class="fa fa-cog"></i>
+                        </button>
+                    </div>
+                    <div class="time" id="currentTime"></div>
+                </div>
+                <div class="tools">
+                    <button class="tool-btn" id="darkModeToggle" title="深色模式 (Ctrl+D)">
+                        <i class="fa fa-moon-o"></i>
+                    </button>
+                    <button class="tool-btn" id="addSiteBtn" title="添加网站 (Ctrl+N)">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="tool-btn" id="settingsBtn" title="设置">
+                        <i class="fa fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 搜索区域 -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="搜索或输入网址..." id="searchInput">
+                    <button class="search-btn" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+                <div class="search-engines">
+                    <button class="search-engine active" data-engine="baidu">百度</button>
+                    <button class="search-engine" data-engine="google">谷歌</button>
+                    <button class="search-engine" data-engine="bing">必应</button>
+                    <button class="search-engine" data-engine="haosou">好搜</button>
+                    <button class="search-engine" data-engine="bilibili">哔哩哔哩</button>
+                    <button class="search-engine" data-engine="github">GitHub</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 网站导航 -->
+    <main class="main">
+        <div class="container">
+            <!-- 自定义网站 -->
+            <section class="section" id="customSitesSection" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-star"></i>
+                        我的网站
+                    </h2>
+                    <button class="toggle-btn" onclick="toggleSection('custom-sites')">
+                        <i class="fa fa-eye"></i> 收起
+                    </button>
+                </div>
+                <div class="sites-grid" id="custom-sites">
+                    <!-- 自定义网站将在这里动态添加 -->
+                </div>
+            </section>
+
+            <!-- 1. AI工具 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-robot"></i>
+                        AI工具
+                    </h2>
+                    <button class="toggle-btn" onclick="toggleSection('ai-tools')">
+                        <i class="fa fa-eye"></i> 收起
+                    </button>
+                </div>
+                <div class="sites-grid" id="ai-tools">
+                    <a href="https://www.doubao.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #10B981;">
+                            <i class="fa fa-comments"></i>
+                        </div>
+                        <div class="site-name">豆包</div>
+                        <div class="site-url">www.doubao.com</div>
+                    </a>
+                    <a href="https://space.coze.cn/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #3B82F6;">
+                            <i class="fa fa-cubes"></i>
+                        </div>
+                        <div class="site-name">Coze空间</div>
+                        <div class="site-url">space.coze.cn</div>
+                    </a>
+                    <a href="https://chat.deepseek.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #8B5CF6;">
+                            <i class="fa fa-search-plus"></i>
+                        </div>
+                        <div class="site-name">DeepSeek</div>
+                        <div class="site-url">chat.deepseek.com</div>
+                    </a>
+                    <a href="https://qianwen.aliyun.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #F59E0B;">
+                            <i class="fa fa-cloud"></i>
+                        </div>
+                        <div class="site-name">通义千问</div>
+                        <div class="site-url">qianwen.aliyun.com</div>
+                    </a>
+                    <a href="https://yuanbao.tencent.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #2563EB;">
+                            <i class="fa fa-diamond"></i>
+                        </div>
+                        <div class="site-name">腾讯元宝</div>
+                        <div class="site-url">yuanbao.tencent.com</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 2. 学习资源 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-graduation-cap"></i>
+                        学习资源
+                    </h2>
+                    <button class="toggle-btn" onclick="toggleSection('learning-resources')">
+                        <i class="fa fa-eye"></i> 收起
+                    </button>
+                </div>
+                <div class="sites-grid" id="learning-resources">
+                    <a href="https://link3.cc/studyship" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #3B82F6;">
+                            <i class="fa fa-ship"></i>
+                        </div>
+                        <div class="site-name">学习资源船舱</div>
+                        <div class="site-url">link3.cc/studyship</div>
+                    </a>
+                    <a href="https://16map.com/favorites/mianfeishipinjiaocheng" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #059669;">
+                            <i class="fa fa-map"></i>
+                        </div>
+                        <div class="site-name">一流导航</div>
+                        <div class="site-url">16map.com</div>
+                    </a>
+                    <a href="https://www.xue8nav.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #9333EA;">
+                            <i class="fa fa-book"></i>
+                        </div>
+                        <div class="site-name">学吧导航</div>
+                        <div class="site-url">xue8nav.com</div>
+                    </a>
+                    <a href="https://www.zjnav.cc/xuexi" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #F59E0B;">
+                            <i class="fa fa-compass"></i>
+                        </div>
+                        <div class="site-name">终极导航</div>
+                        <div class="site-url">zjnav.cc/xuexi</div>
+                    </a>
+                    <a href="https://www.aigc.cn/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #6366F1;">
+                            <i class="fa fa-magic"></i>
+                        </div>
+                        <div class="site-name">AIGC工具导航</div>
+                        <div class="site-url">aigc.cn</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 3. 邮箱服务 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-envelope"></i>
+                        邮箱服务
+                    </h2>
+                    <button class="toggle-btn" onclick="toggleSection('email-services')">
+                        <i class="fa fa-eye"></i> 收起
+                    </button>
+                </div>
+                <div class="sites-grid" id="email-services">
+                    <a href="https://mail.google.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #EA4335;">
+                            <i class="fa fa-google"></i>
+                        </div>
+                        <div class="site-name">Gmail</div>
+                        <div class="site-url">mail.google.com</div>
+                    </a>
+                    <a href="https://outlook.live.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #0078D4;">
+                            <i class="fa fa-windows"></i>
+                        </div>
+                        <div class="site-name">Outlook</div>
+                        <div class="site-url">outlook.live.com</div>
+                    </a>
+                    <a href="https://mail.qq.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #12B7F5;">
+                            <i class="fa fa-qq"></i>
+                        </div>
+                        <div class="site-name">QQ邮箱</div>
+                        <div class="site-url">mail.qq.com</div>
+                    </a>
+                    <a href="https://mail.163.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #D14836;">
+                            <i class="fa fa-envelope-o"></i>
+                        </div>
+                        <div class="site-name">网易邮箱</div>
+                        <div class="site-url">mail.163.com</div>
+                    </a>
+                    <a href="https://www.icloud.com/mail" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #007AFF;">
+                            <i class="fa fa-apple"></i>
+                        </div>
+                        <div class="site-name">iCloud Mail</div>
+                        <div class="site-url">icloud.com/mail</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 4. 云服务 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-cloud"></i>
+                        云服务
+                    </h2>
+                    <button class="toggle-btn" onclick="toggleSection('cloud-services')">
+                        <i class="fa fa-eye"></i> 收起
+                    </button>
+                </div>
+                <div class="sites-grid" id="cloud-services">
+                    <a href="https://www.huaweicloud.com/intl/zh-cn/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #EF4444;">
+                            <i class="fa fa-cloud-upload"></i>
+                        </div>
+                        <div class="site-name">华为云</div>
+                        <div class="site-url">huaweicloud.com</div>
+                    </a>
+                    <a href="https://cloud.baidu.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #3B82F6;">
+                            <i class="fa fa-cloud"></i>
+                        </div>
+                        <div class="site-name">百度云</div>
+                        <div class="site-url">cloud.baidu.com</div>
+                    </a>
+                    <a href="https://www.aliyun.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #F59E0B;">
+                            <i class="fa fa-cloud-upload"></i>
+                        </div>
+                        <div class="site-name">阿里云</div>
+                        <div class="site-url">aliyun.com</div>
+                    </a>
+                    <a href="https://cloud.tencent.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #60A5FA;">
+                            <i class="fa fa-upload"></i>
+                        </div>
+                        <div class="site-name">腾讯云</div>
+                        <div class="site-url">cloud.tencent.com</div>
+                    </a>
+                    <a href="https://www.cloudflare.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #F59E0B;">
+                            <i class="fa fa-shield"></i>
+                        </div>
+                        <div class="site-name">Cloudflare</div>
+                        <div class="site-url">cloudflare.com</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 5. 视频娱乐 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-play-circle"></i>
+                        视频娱乐
+                    </h2>
+                    <button class="toggle-btn" onclick="toggleSection('video-sites')">
+                        <i class="fa fa-eye"></i> 收起
+                    </button>
+                </div>
+                <div class="sites-grid" id="video-sites">
+                    <a href="https://youtube.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #DC2626;">
+                            <i class="fa fa-youtube-play"></i>
+                        </div>
+                        <div class="site-name">YouTube</div>
+                        <div class="site-url">youtube.com</div>
+                    </a>
+                    <a href="https://bilibili.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #EC4899;">
+                            <i class="fa fa-play-circle"></i>
+                        </div>
+                        <div class="site-name">哔哩哔哩</div>
+                        <div class="site-url">bilibili.com</div>
+                    </a>
+                    <a href="https://www.dushe1.app/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #B91C1C;">
+                            <i class="fa fa-film"></i>
+                        </div>
+                        <div class="site-name">毒舌电影</div>
+                        <div class="site-url">dushe1.app</div>
+                    </a>
+                    <a href="https://iqiyi.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #9333EA;">
+                            <i class="fa fa-play"></i>
+                        </div>
+                        <div class="site-name">爱奇艺</div>
+                        <div class="site-url">iqiyi.com</div>
+                    </a>
+                    <a href="https://v.qq.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #3B82F6;">
+                            <i class="fa fa-television"></i>
+                        </div>
+                        <div class="site-name">腾讯视频</div>
+                        <div class="site-url">v.qq.com</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 6. 安全工具 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-shield"></i>
+                        安全工具
+                    </h2>
+                    <button class="toggle-btn" onclick="toggleSection('security-tools')">
+                        <i class="fa fa-eye"></i> 收起
+                    </button>
+                </div>
+                <div class="sites-grid" id="security-tools">
+                    <a href="https://sbbbb.cn/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #EF4444;">
+                            <i class="fa fa-sitemap"></i>
+                        </div>
+                        <div class="site-name">0xShe网络安全导航</div>
+                        <div class="site-url">sbbbb.cn</div>
+                    </a>
+                    <a href="https://www.secnn.com/#" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #3B82F6;">
+                            <i class="fa fa-wrench"></i>
+                        </div>
+                        <div class="site-name">SecNN在线网络安全工具</div>
+                        <div class="site-url">secnn.com</div>
+                    </a>
+                    <a href="https://get-shell.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #059669;">
+                            <i class="fa fa-terminal"></i>
+                        </div>
+                        <div class="site-name">极核GetShell</div>
+                        <div class="site-url">get-shell.com</div>
+                    </a>
+                    <a href="https://www.aqku.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #9333EA;">
+                            <i class="fa fa-book"></i>
+                        </div>
+                        <div class="site-name">安全库</div>
+                        <div class="site-url">aqku.com</div>
+                    </a>
+                    <a href="security-labs.html" class="site-card">
+                        <div class="site-icon" style="background-color: #F59E0B;">
+                            <i class="fa fa-flask"></i>
+                        </div>
+                        <div class="site-name">靶场推荐</div>
+                        <div class="site-url">本地页面</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 7. 开发工具 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-code"></i>
+                        开发工具
+                    </h2>
+                    <button class="toggle-btn" onclick="toggleSection('dev-tools')">
+                        <i class="fa fa-eye"></i> 收起
+                    </button>
+                </div>
+                <div class="sites-grid" id="dev-tools">
+                    <a href="https://code.visualstudio.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #007ACC;">
+                            <i class="fa fa-file-code-o"></i>
+                        </div>
+                        <div class="site-name">VS Code</div>
+                        <div class="site-url">code.visualstudio.com</div>
+                    </a>
+                    <a href="https://www.codebuddy.ai/genie/activity/invite" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #10B981;">
+                            <i class="fa fa-terminal"></i>
+                        </div>
+                        <div class="site-name">CodeBuddy IDE</div>
+                        <div class="site-url">codebuddy.ai</div>
+                    </a>
+                    <a href="https://www.trae.cn/ide/download" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #3B82F6;">
+                            <i class="fa fa-desktop"></i>
+                        </div>
+                        <div class="site-name">TRAE</div>
+                        <div class="site-url">trae.cn</div>
+                    </a>
+                    <a href="https://copilot.tencent.com/chat/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #F59E0B;">
+                            <i class="fa fa-magic"></i>
+                        </div>
+                        <div class="site-name">腾讯云代码助手</div>
+                        <div class="site-url">copilot.tencent.com</div>
+                    </a>
+                    <a href="https://github.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #24292E;">
+                            <i class="fa fa-github"></i>
+                        </div>
+                        <div class="site-name">GitHub</div>
+                        <div class="site-url">github.com</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 8. 金融服务 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-credit-card"></i>
+                        金融服务
+                    </h2>
+                    <button class="toggle-btn" onclick="toggleSection('finance-services')">
+                        <i class="fa fa-eye"></i> 收起
+                    </button>
+                </div>
+                <div class="sites-grid" id="finance-services">
+                    <a href="https://www.paypal.com/c2/home" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #003087;">
+                            <i class="fa fa-paypal"></i>
+                        </div>
+                        <div class="site-name">PayPal</div>
+                        <div class="site-url">paypal.com</div>
+                    </a>
+                    <a href="https://www.alipay.com/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #1677FF;">
+                            <i class="fa fa-mobile"></i>
+                        </div>
+                        <div class="site-name">支付宝</div>
+                        <div class="site-url">alipay.com</div>
+                    </a>
+                    <a href="https://www.marketwebb.me/zh-CN/my/dashboard" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #F0B90B;">
+                            <i class="fa fa-bitcoin"></i>
+                        </div>
+                        <div class="site-name">Binance</div>
+                        <div class="site-url">marketwebb.me</div>
+                    </a>
+                    <a href="https://www.ouzhyi.rocks/zh-hans" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #0052FF;">
+                            <i class="fa fa-exchange"></i>
+                        </div>
+                        <div class="site-name">OKX</div>
+                        <div class="site-url">ouzhyi.rocks</div>
+                    </a>
+                    <a href="https://www.10jqka.com.cn/" target="_blank" class="site-card">
+                        <div class="site-icon" style="background-color: #E74C3C;">
+                            <i class="fa fa-line-chart"></i>
+                        </div>
+                        <div class="site-name">同花顺</div>
+                        <div class="site-url">10jqka.com.cn</div>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 添加网站模态框 -->
+    <div class="modal" id="addSiteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加新网站</h3>
+                <button class="close-btn" onclick="closeModal('addSiteModal')">&times;</button>
+            </div>
+            <form id="addSiteForm">
+                <div class="form-group">
+                    <label>网站名称</label>
+                    <input type="text" id="siteName" required>
+                </div>
+                <div class="form-group">
+                    <label>网站地址</label>
+                    <input type="url" id="siteUrl" placeholder="https://" required>
+                </div>
+                <div class="form-group">
+                    <label>分类</label>
+                    <select id="siteCategory">
+                        <option value="ai">AI工具</option>
+                        <option value="learning">学习资源</option>
+                        <option value="email">邮箱服务</option>
+                        <option value="cloud">云服务</option>
+                        <option value="video">视频娱乐</option>
+                        <option value="security">安全工具</option>
+                        <option value="dev">开发工具</option>
+                        <option value="finance">金融服务</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('addSiteModal')">取消</button>
+                    <button type="submit">添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 天气设置模态框 -->
+    <div class="modal" id="weatherModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>天气设置</h3>
+                <button class="close-btn" onclick="closeModal('weatherModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>城市名称</label>
+                <input type="text" id="weatherCity" placeholder="请输入城市名称，如：北京、上海" value="北京">
+                <small style="color: #64748b; font-size: 12px;">支持中文城市名称，如：北京、上海、广州等</small>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="closeModal('weatherModal')">取消</button>
+                <button type="button" onclick="saveWeatherSettings()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑网站模态框 -->
+    <div class="modal" id="editSiteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>编辑网站</h3>
+                <button class="close-btn" onclick="closeModal('editSiteModal')">&times;</button>
+            </div>
+            <form id="editSiteForm">
+                <div class="form-group">
+                    <label>网站名称</label>
+                    <input type="text" id="editSiteName" required>
+                </div>
+                <div class="form-group">
+                    <label>网站地址</label>
+                    <input type="url" id="editSiteUrl" placeholder="https://" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="deleteCustomSite()">
+                        <i class="fa fa-trash"></i> 删除
+                    </button>
+                    <button type="button" onclick="closeModal('editSiteModal')">取消</button>
+                    <button type="submit">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 设置模态框 -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>设置</h3>
+                <button class="close-btn" onclick="closeModal('settingsModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>默认搜索引擎</label>
+                <select id="defaultSearchEngine">
+                    <option value="baidu">百度</option>
+                    <option value="google">谷歌</option>
+                    <option value="bing">必应</option>
+                    <option value="haosou">好搜</option>
+                    <option value="bilibili">哔哩哔哩</option>
+                    <option value="github">GitHub</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="exportData()">
+                    <i class="fa fa-download"></i> 导出数据
+                </button>
+                <button type="button" onclick="saveSettings()">保存设置</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

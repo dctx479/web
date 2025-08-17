@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全靶场资源整合</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36BFFA',
+                        dark: '#1D2939',
+                        light: '#F9FAFB',
+                        purple: '#7B61FF',
+                        green: '#36D399',
+                        yellow: '#FFAB00',
+                        red: '#FF5724'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+            .hover-lift {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .hover-lift:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+            .section-fade {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s ease, transform 0.6s ease;
+            }
+            .section-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-dark">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-shield text-primary text-2xl"></i>
+                <h1 class="text-xl md:text-2xl font-bold text-primary">安全靶场资源平台</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#web" class="hover:text-primary transition-colors">Web安全</a>
+                <a href="#network" class="hover:text-primary transition-colors">网络安全</a>
+                <a href="#cloud" class="hover:text-primary transition-colors">云安全</a>
+                <a href="#forensics" class="hover:text-primary transition-colors">数字取证</a>
+                <a href="#ctf" class="hover:text-primary transition-colors">CTF平台</a>
+                <a href="#misc" class="hover:text-primary transition-colors">其他资源</a>
+            </nav>
+            <button class="md:hidden text-dark" id="menuButton">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden bg-white w-full absolute shadow-md" id="mobileMenu">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#web" class="hover:text-primary transition-colors py-2">Web安全</a>
+                <a href="#network" class="hover:text-primary transition-colors py-2">网络安全</a>
+                <a href="#cloud" class="hover:text-primary transition-colors py-2">云安全</a>
+                <a href="#forensics" class="hover:text-primary transition-colors py-2">数字取证</a>
+                <a href="#ctf" class="hover:text-primary transition-colors py-2">CTF平台</a>
+                <a href="#misc" class="hover:text-primary transition-colors py-2">其他资源</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="bg-gradient-to-r from-primary to-secondary text-white py-16 md:py-24">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">安全学习靶场资源整合</h2>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">
+                汇集国内外优质安全靶场，助力安全爱好者提升实战技能，从入门到精通的一站式资源平台
+            </p>
+            <div class="mt-10">
+                <a href="#web" class="bg-white text-primary font-medium px-6 py-3 rounded-lg inline-block hover:bg-gray-100 transition-colors shadow-lg">
+                    开始探索 <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            
+            <!-- 统计数据 -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 max-w-3xl mx-auto">
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                    <div class="text-3xl font-bold">65+</div>
+                    <div class="text-sm opacity-80">精选靶场</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                    <div class="text-3xl font-bold">8</div>
+                    <div class="text-sm opacity-80">安全领域</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                    <div class="text-3xl font-bold">3</div>
+                    <div class="text-sm opacity-80">难度级别</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                    <div class="text-3xl font-bold">120+</div>
+                    <div class="text-sm opacity-80">漏洞类型</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Web安全靶场 -->
+        <section id="web" class="mb-16 section-fade">
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                    <i class="fa fa-globe text-primary text-xl"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold">Web安全靶场</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- DVWA -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">DVWA</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">入门级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        Damn Vulnerable Web Application，一个用于学习Web安全的脆弱性测试平台，包含常见的Web漏洞。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">SQL注入</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">XSS</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">文件上传</span>
+                    </div>
+                    <a href="https://dvwa.co.uk/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- OWASP Juice Shop -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">OWASP Juice Shop</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        OWASP官方推出的现代Web应用靶场，包含OWASP Top 10漏洞，适合有一定基础的学习者。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">现代前端</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">API安全</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">容器安全</span>
+                    </div>
+                    <a href="https://owasp.org/www-project-juice-shop/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- WebGoat -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">WebGoat</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        OWASP开发的Java Web应用安全训练平台，通过完成挑战学习Web安全知识。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Java</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">认证授权</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">会话管理</span>
+                    </div>
+                    <a href="https://github.com/WebGoat/WebGoat" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问GitHub <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- 封神台在线演练靶场 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">封神台在线演练靶场</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        专注于Web安全漏洞演练的在线平台，提供真实漏洞环境和详细解题步骤，适合实战练习。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">漏洞演练</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">实战场景</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">详细解析</span>
+                    </div>
+                    <a href="https://hack.zkaq.cn/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问平台 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- 墨者学院（墨者靶场） -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">墨者学院（墨者靶场）</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">入门级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        国内知名的网络安全学习平台，提供Web安全、渗透测试等多个领域的靶场练习环境。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">分阶练习</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">课程配套</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">认证考试</span>
+                    </div>
+                    <a href="https://www.mozhe.cn/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- 玄机靶场 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">玄机靶场</h3>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">综合级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        提供多样化的网络安全靶场环境，涵盖Web安全、内网渗透等多个领域的实战练习场景。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">综合练习</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">实战模拟</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">竞赛训练</span>
+                    </div>
+                    <a href="https://xj.edisec.net/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问靶场 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 网络安全靶场 -->
+        <section id="network" class="mb-16 section-fade">
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                    <i class="fa fa-sitemap text-primary text-xl"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold">网络安全靶场</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Hack The Box -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">Hack The Box</h3>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">综合级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        知名网络安全训练平台，提供各种虚拟机器供用户渗透测试，适合提升实战能力。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">渗透测试</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">内网渗透</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">CTF风格</span>
+                    </div>
+                    <a href="https://www.hackthebox.com/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- TryHackMe -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">TryHackMe</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        交互式网络安全学习平台，提供从基础到高级的课程和靶场环境，适合系统学习。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">课程体系</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">网络攻击</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">实时环境</span>
+                    </div>
+                    <a href="https://tryhackme.com/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- VulnHub -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">VulnHub</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">入门级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        免费的漏洞测试虚拟机平台，提供各种漏洞环境镜像，可本地下载运行。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">免费资源</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">虚拟机</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">漏洞练习</span>
+                    </div>
+                    <a href="https://www.vulnhub.com/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 云安全靶场 -->
+        <section id="cloud" class="mb-16 section-fade">
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                    <i class="fa fa-cloud text-primary text-xl"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold">云安全靶场</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- AWS CloudGoat -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">AWS CloudGoat</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        由Rhino Security Labs开发的AWS安全挑战平台，用于学习云环境渗透测试和安全评估。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">AWS</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">IAM权限</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">云配置</span>
+                    </div>
+                    <a href="https://github.com/RhinoSecurityLabs/cloudgoat" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问GitHub <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- 微软云安全实验室 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">微软云安全实验室</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        微软提供的Azure云安全挑战环境，包含各种云安全场景和最佳实践指南。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Azure</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">云安全架构</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">身份认证</span>
+                    </div>
+                    <a href="https://microsoft.github.io/Azure-Security-Labs/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问实验室 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- 云安全知识库 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">云安全知识库</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">入门级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        专注于云安全知识分享与靶场练习的平台，提供云安全技术文章、实践指南和模拟环境。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">云安全知识</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">实践指南</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">案例分析</span>
+                    </div>
+                    <a href="http://cloudsec.huoxian.cn/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问知识库 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- 云安全测试平台 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">云安全测试平台</h3>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">综合级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        专注于云服务安全的测试平台，涵盖AWS、Azure和GCP等主流云平台的安全测试场景。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">多云环境</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">容器安全</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">云原生</span>
+                    </div>
+                    <a href="https://pentesterlab.com/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问平台 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- OWASP云安全测试指南 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">OWASP云安全测试指南</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">入门级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        OWASP提供的云安全测试资源和实验室环境，帮助理解云环境中的安全风险和测试方法。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">测试方法论</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">共享责任</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">合规性</span>
+                    </div>
+                    <a href="https://owasp.org/www-project-cloud-security-testing-guide/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问指南 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Hack The Cloud -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">Hack The Cloud</h3>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">综合级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        专注于云安全的CTF平台，提供AWS、Azure和GCP环境中的各种安全挑战，模拟真实攻击场景。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">云CTF</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">配置错误</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">数据泄露</span>
+                    </div>
+                    <a href="https://hackthe.cloud/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问平台 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数字取证靶场 -->
+        <section id="forensics" class="mb-16 section-fade">
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                    <i class="fa fa-search text-primary text-xl"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold">数字取证靶场</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- DFIR Labs -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">DFIR Labs</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        数字取证与事件响应实验室，提供真实的取证场景和案例分析练习。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">内存取证</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">磁盘分析</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">恶意代码</span>
+                    </div>
+                    <a href="https://dfirlabs.com/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- CyberDefenders -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">CyberDefenders</h3>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">综合级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        提供各种网络防御和数字取证挑战，模拟真实安全事件场景。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">蓝队</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">日志分析</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">威胁狩猎</span>
+                    </div>
+                    <a href="https://cyberdefenders.org/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTF平台 -->
+        <section id="ctf" class="mb-16 section-fade">
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                    <i class="fa fa-flag-checkered text-primary text-xl"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold">CTF练习平台</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- CTFtime -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">CTFtime</h3>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">综合级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        全球CTF赛事信息平台，包含赛事日历、战队排名和历史赛事题目归档。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">赛事信息</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">题目归档</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">全球排名</span>
+                    </div>
+                    <a href="https://ctftime.org/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- 攻防世界 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">攻防世界</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        国内知名CTF练习平台，提供丰富的题目和赛事，适合各阶段学习者。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">分类练习</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">线上赛</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">学习路径</span>
+                    </div>
+                    <a href="https://adworld.xctf.org.cn/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Hack The Box CTF -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">Hack The Box CTF</h3>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">综合级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        HTB平台的CTF板块，提供高质量的CTF题目，涵盖多个安全领域。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">多领域</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">高难度</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">实时排名</span>
+                    </div>
+                    <a href="https://www.hackthebox.com/ctf" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问平台 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- TryHackMe CTF -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">TryHackMe CTF</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        TryHackMe平台的CTF挑战区，提供从易到难的各种CTF题目，适合系统化学习。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">阶梯难度</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">提示系统</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">社区支持</span>
+                    </div>
+                    <a href="https://tryhackme.com/ctf" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问平台 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Root Me -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">Root Me</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        法国知名CTF和网络安全练习平台，提供大量免费的挑战题目，涵盖多个安全领域。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">免费资源</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">多语言支持</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">技能认证</span>
+                    </div>
+                    <a href="https://www.root-me.org/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- PicoCTF -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">PicoCTF</h3>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">入门级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        面向学生和初学者的CTF平台，题目难度适中，适合CTF入门学习和技能提升。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">初学者友好</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">教育性</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">多样化题目</span>
+                    </div>
+                    <a href="https://picoctf.org/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- i春秋 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">i春秋</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        国内知名的网络安全学习与CTF平台，提供在线课程、实战靶场和各类CTF竞赛。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">在线课程</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">CTF竞赛</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">实战练习</span>
+                    </div>
+                    <a href="https://www.ichunqiu.com/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问平台 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- CTF+ -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">CTF+</h3>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">综合级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        专注于CTF赛事与学习资源分享的平台，提供高质量题目和赛事信息，适合进阶学习者。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">赛事组织</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">题目分享</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">技术社区</span>
+                    </div>
+                    <a href="https://www.ctfplus.cn/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问平台 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- 西电 CTF -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">西电 CTF</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">进阶级</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        西安电子科技大学主办的CTF平台，提供优质的CTF题目和赛事，注重学术性与实战性结合。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">高校平台</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">学术性</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">校内赛事</span>
+                    </div>
+                    <a href="https://ctf.xidian.edu.cn/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问平台 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 其他资源 -->
+        <section id="misc" class="mb-16 section-fade">
+            <div class="flex items-center mb-8">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                    <i class="fa fa-ellipsis-h text-primary text-xl"></i>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold">其他安全资源</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 漏洞库 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">CVE Details</h3>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">参考资源</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        全面的CVE漏洞数据库，提供漏洞详情、影响范围和修复建议。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">漏洞情报</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">CVSS评分</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">补丁信息</span>
+                    </div>
+                    <a href="https://www.cvedetails.com/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- 安全工具库 -->
+                <div class="bg-white rounded-xl p-6 card-shadow hover-lift">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold">Exploit-DB</h3>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">工具资源</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        漏洞利用代码数据库，收集了大量公开的漏洞利用脚本和POC。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">EXP</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">POC</span>
+                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">漏洞分析</span>
+                    </div>
+                    <a href="https://www.exploit-db.com/" target="_blank" class="text-primary hover:text-primary/80 flex items-center">
+                        访问官网 <i class="fa fa-external-link ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 订阅区域 -->
+    <section class="bg-primary/5 py-16 section-fade">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">获取最新安全靶场资讯</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-8">
+                订阅我们的通讯，及时获取新靶场推荐、安全技术文章和学习资源更新
+            </p>
+            <form class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+                <input type="email" placeholder="输入您的邮箱地址" class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                <button type="submit" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium">
+                    订阅 <i class="fa fa-paper-plane ml-2"></i>
+                </button>
+            </form>
+            <p class="text-gray-500 text-sm mt-4">
+                我们尊重您的隐私，不会向第三方分享您的信息
+            </p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa fa-shield text-primary text-2xl"></i>
+                        <h3 class="text-xl font-bold">安全靶场资源平台</h3>
+                    </div>
+                    <p class="text-gray-400">
+                        致力于整合优质安全学习资源，助力安全爱好者提升实战技能，共建安全生态。
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">靶场分类</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#web" class="hover:text-primary transition-colors">Web安全靶场</a></li>
+                        <li><a href="#network" class="hover:text-primary transition-colors">网络安全靶场</a></li>
+                        <li><a href="#cloud" class="hover:text-primary transition-colors">云安全靶场</a></li>
+                        <li><a href="#forensics" class="hover:text-primary transition-colors">数字取证靶场</a></li>
+                        <li><a href="#ctf" class="hover:text-primary transition-colors">CTF平台</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">学习资源</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#misc" class="hover:text-primary transition-colors">其他安全资源</a></li>
+                        <li><a href="https://owasp.org/www-project-top-ten/" target="_blank" class="hover:text-primary transition-colors">OWASP Top 10</a></li>
+                        <li><a href="https://nvd.nist.gov/" target="_blank" class="hover:text-primary transition-colors">漏洞数据库</a></li>
+                        <li><a href="https://www.exploit-db.com/" target="_blank" class="hover:text-primary transition-colors">Exploit-DB</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">联系我们</h4>
+                    <div class="flex space-x-4 text-gray-400">
+                        <a href="#" class="hover:text-primary transition-colors"><i class="fa fa-github text-xl"></i></a>
+                        <a href="#" class="hover:text-primary transition-colors"><i class="fa fa-twitter text-xl"></i></a>
+                        <a href="#" class="hover:text-primary transition-colors"><i class="fa fa-linkedin text-xl"></i></a>
+                        <a href="#" class="hover:text-primary transition-colors"><i class="fa fa-envelope text-xl"></i></a>
+                    </div>
+                    <p class="mt-4 text-gray-400">
+                        免责声明：所有靶场资源仅供学习使用，请勿用于非法用途
+                    </p>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+                &copy; 2023 安全靶场资源平台 - 仅供学习交流使用
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80, // 考虑导航栏高度
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动菜单（如果打开）
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // 移动端菜单切换
+        const menuButton = document.getElementById('menuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2', 'shadow');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-2', 'shadow');
+            }
+        });
+
+        // 滚动显示动画
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('section-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-fade').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
+    
